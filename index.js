@@ -48,7 +48,6 @@ function generateRandomOil(){
     return randomOilDataList
 }
 
-
 /* Correlation is a function that associate Each temperature to a Pressure trough some Rule f(x)*/
 function correlationTempPressure(temp, correlation){
     return correlation(temp);
