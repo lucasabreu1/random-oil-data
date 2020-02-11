@@ -13,25 +13,35 @@
 
 **/
 
-var express = require('express')
-var app = express()
+const express = require('express')
+const app = express()
+const randomDate = require('random-datetime')
+const uuidv1 = require('uuid/v1')
 
-function Oil(pressure, temperature){
+
+function Oil(id, pressure, temperature, timeStamp){
+    this.id=id
     this.pressure=pressure
     this.temperature=temperature
-}
+    this.timeStamp=timeStamp
 
+}
 
 /* Generates data oil */
 function generateRandomOil(){
+
     let randomOilDataList = []
     let randomQuantity = Math.random()*5
-    let randomPressure = Math.random()*1000
-    let randomTemperature = Math.random()*1000
 
     let i=0
     while(i<randomQuantity){
-        randomOilDataList.push(new Oil(randomPressure, randomTemperature))
+
+        let randomId = uuidv1()
+        let randomPressure = Math.random()*1000
+        let randomTemperature = Math.random()*1000
+        let randomTimeStamp = randomDate()
+
+        randomOilDataList.push(new Oil(randomId ,randomPressure, randomTemperature, randomTimeStamp, randomTimeStamp))
         i++
     }
 
@@ -45,7 +55,7 @@ function correlationTempPressure(temp, correlation){
 }
 
 
-app.listen(3000, () => {
+app.listen(8000, () => {
     console.log("Server running on port 3000")
 });
 
@@ -54,3 +64,6 @@ app.get("/generate_oil_dataset", (req, res, next) =>{
     let randomData = generateRandomOil()
     res.json(randomData)
 })
+
+
+app.use(express.static('public'))
